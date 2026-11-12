@@ -1,0 +1,1 @@
+export default function PageHeading({no,title,sub}:{no:string;title:string;sub:string}){return <div className="page-heading"><span>{no}</span><div><p className="eyebrow">TINGLAN / SHAPE TRACING BOOK</p><h1>{title}</h1><p>{sub}</p></div></div>}
