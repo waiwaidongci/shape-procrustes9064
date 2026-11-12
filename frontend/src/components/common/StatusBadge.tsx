@@ -1,1 +1,1 @@
-import {runStatus,noteStatus} from '../../constants/enums';export default function StatusBadge({status}:{status:string}){return <span className={'status '+status}>{({...runStatus,...noteStatus} as Record<string,string>)[status]||status}</span>}
+import {runStatus,noteStatus,intakeStatus,intakeRowStatus} from '../../constants/enums';export default function StatusBadge({status}:{status:string}){return <span className={'status '+status}>{({...runStatus,...noteStatus,...intakeStatus,...intakeRowStatus} as Record<string,string>)[status]||status}</span>}

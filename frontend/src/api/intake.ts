@@ -1,0 +1,2 @@
+import{request,post}from'./client';import type{IntakeBatch}from'../types/domain';export const list=(collection_id:number)=>request<IntakeBatch[]>('/intake'+`?collection_id=${collection_id}`);export const detail=(token:string)=>request<IntakeBatch>('/intake/'+token);export const preview=(data:unknown)=>post<IntakeBatch>('/intake/preview',data);
+export const confirm=(token:string)=>post<IntakeBatch>('/intake/'+token+'/confirm',{});

@@ -27,6 +27,10 @@
 
 数值来自固定seed输入的真实API/worker计算；镜像集合最大GPA距离约1.03168，仍保留差异。全同形校验有浮点残差约2.08e−15且没有假模态。
 
+## 批量接收
+
+上游补发同一集合的裁片修订表时，在“角点与基准”页的“批量接收”页签粘贴修订行JSON数组（每行code/name/source_note/labels/points）。`POST /intake/preview`按编号核对八个角点与模板标签顺序，预览新增、更新、未变及坏行原因；坏行改正后重新生成预览即可。`POST /intake/{token}/confirm`仅写入通过的行，更新在原地进行、保留裁片ID，坏行跳过不写入。预览以SHA256指纹冻结集合/模板/裁片状态；确认时指纹不符或新增后超过每集合120份容量，整批拒绝并提示重验。同一token重复确认返回首次落库结果，不重复写入。接收只写shape_specimens，既有冻结研究快照与已批准说明保持原样；`GET /intake`按集合列出接收留档供页面核对。
+
 ## 启动
 
 ```bash
@@ -83,7 +87,7 @@ SHA256覆盖算法版本、完整冻结集合/模板/裁片、保留数和容差
 
 ## 代码与本地开发
 
-ShapeCollection、Template、ShapeSpecimen、AlignmentRun、InspectionNote各有独立model/schema/service/controller/route/API。collectionStore管理集合/基准、specimenStore管理原始点、researchStore管理任务/批注。六页为索引、来源、运行、结果、批注、留痕，登录另计；ShapeCanvas复用于索引/模板/配准/模态，同画布保持等比例。PageHeading/StatusBadge/ErrorNotice等共享，useTask/usePolling与format工具复用。宽表只局部滚动，grid使用minmax(0,1fr)/min-width:0；结果选择按真实加载数据同步。
+ShapeCollection、Template、ShapeSpecimen、AlignmentRun、InspectionNote、IntakeBatch各有独立model/schema/service/controller/route/API。collectionStore管理集合/基准、specimenStore管理原始点、researchStore管理任务/批注。六页为索引、来源、运行、结果、批注、留痕，登录另计；ShapeCanvas复用于索引/模板/配准/模态，同画布保持等比例。PageHeading/StatusBadge/ErrorNotice等共享，useTask/usePolling与format工具复用。宽表只局部滚动，grid使用minmax(0,1fr)/min-width:0；结果选择按真实加载数据同步。
 
 目录为backend/src/{models,schemas,services,controllers,routes,config,constants,middlewares,utils}，数学services/{geometry,gpa,deformation}.py，seed与初始migrations；frontend/src/{api,stores,types,constants,components/common,hooks,pages,router,utils}。
 
